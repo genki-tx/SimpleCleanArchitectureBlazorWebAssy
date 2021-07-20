@@ -1,0 +1,37 @@
+﻿@using SCA 
+@inject ICountPresenter _presenter
+@implements IDisposable
+
+<!-- This is View component -->
+<h2>Counter @Type.ToString()</h2>
+<p>Current count: @_count</p>
+<button class="btn btn-primary" @onclick="(()=> _presenter.IncrementCount(Type))">Increase Count</button>
+
+@code
+{
+    [Parameter]
+    public CountType Type { get; set; }
+
+    private int _count;
+
+    private DisposableList _disposables = new();
+
+    protected override void OnInitialized()
+    {
+        var observable = Type == CountType.A ? _presenter.CountA : _presenter.CountB;
+
+        // Subscribe value
+        var disposable = observable.Subscribe((x) =>
+        {
+            _count = x;
+            StateHasChanged();
+        });
+
+        _disposables.Add(disposable);
+    }
+
+    public void Dispose()
+    {
+        _disposables.DisposeAll();
+    }
+}

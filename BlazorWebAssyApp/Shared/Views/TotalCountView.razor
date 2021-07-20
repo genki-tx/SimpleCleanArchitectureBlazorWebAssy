@@ -1,0 +1,36 @@
+﻿@using SCA 
+@inject ICountPresenter _presenter
+@implements IDisposable
+
+<!-- This is View component -->
+<h2>Total Count</h2>
+<big> @_count</big>
+
+@code
+{
+    private int _count;
+
+    private DisposableList _disposables = new();
+
+    protected override void OnInitialized()
+    {
+        // Subscribe value
+        var disposableA = _presenter.CountA.Subscribe((x) =>
+        {
+            _count = x + _presenter.CountB.Value;
+            StateHasChanged();
+        });
+        var disposableB = _presenter.CountB.Subscribe((x) =>
+        {
+            _count = x + _presenter.CountA.Value;
+            StateHasChanged();
+        });
+        _disposables.Add(disposableA);
+        _disposables.Add(disposableB);
+    }
+
+    public void Dispose()
+    {
+        _disposables.DisposeAll();
+    }
+}
