@@ -38,7 +38,7 @@ This diagram shows each component's relationship.
 ![fig](docs/images/components.png)
 
 ## Dependency Injection  
-If you make a loosely coupled software, you need to consider "how to resolve the dependency," meaning who will create the instance. Dependency Injection(DI) in in charge of this functionality. Since DI is popular software design pattern, please search it if you want to more.  
+If you make a loosely coupled software, you need to consider "how to resolve the dependency", meaning who will create the instance. Dependency Injection(DI) is in charge of this functionality. Since DI is a popular software design pattern, please search it if you want to more.  
 Since ASP.NET supports dependency injection on its framework, we use that DI method in this example. You can read the detail on Microsoft's document: [ASP.NET Core Blazor dependency injection](https://docs.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection?view=aspnetcore-5.0&pivots=webassembly)  
 
 ## Reactive Programming  
@@ -47,8 +47,8 @@ In SCA, we use the concept of Reactive Programming to have each component commun
 In this example, we use *Reactive Extensions (System.Reactive)* to achieve such Reactive programming communication. For the detail usage of Reactive Extensions, please check its github: [Reactive Extensions](https://github.com/dotnet/reactive).
 
 ### Reactive Property
-The special trick of this project is that we provides `IPropertyObservable` and `PropertyObservable` defined in [PropertyObservable.cs](BlazorWebAssyApp/Shared/Entities/PropertyObservable.cs). This is a wrapper of `Subject` in `System.Reactive.Subject`. Although `Subject` is very useful class, if you use `Subject` by default, subscriber even can modify / re-new the content of `Subject` and it might confuse the design. To solve this, we use `IPropertyObservable` interface for subscribers. `IPropertyObservable` only has `Subscribe()` and `Value` so that we can let subscribers just to subscribe or read value. `PropertyObservable` is actual implementation of `IPropertyObservable` and has `Notify()` method to publish the data changed.  
-You can check the example of the usage in [CountPresenter.cs](BlazorWebAssyApp/Shared/Presenters/CountPresenter.cs). Basic usage is exact same as *Reactive Extensions (System.Reactive)*, but you can see a similarity from [UniRx](https://github.com/neuecc/UniRx) in Unity.  
+The special trick of this project is that we provides `IPropertyObservable` and `PropertyObservable` defined in [PropertyObservable.cs](BlazorWebAssyApp/Shared/Entities/PropertyObservable.cs). This is a wrapper of `Subject` in Reactive Extensions, `System.Reactive.Subject`. Although `Subject` is very useful class, if you use `Subject` as public property, subscriber even can modify / re-new the content of `Subject` and it might confuse the design. To solve this, we use `IPropertyObservable` interface for subscribers. `IPropertyObservable` only has `Subscribe()` and `Value` so that we can let subscribers just to subscribe or read value. `PropertyObservable` is actual implementation of `IPropertyObservable` and has `Notify()` method to publish the data changed.  
+You can check the example of the usage in [CountPresenter.cs](BlazorWebAssyApp/Shared/Presenters/CountPresenter.cs). Basic usage is exact same as *Reactive Extensions (System.Reactive)*, but you can see a similarity from ReactiveProperty in [UniRx](https://github.com/neuecc/UniRx) for Unity.  
 
 ## Example Page  
 You can see the example page by opening this project by Visual Studio and start running or use `dotnet run` command in ./BlazorWebAssyApp. Example page contains UI with 2 buttons. It is a simple application, but it has all the components of SCA.  
